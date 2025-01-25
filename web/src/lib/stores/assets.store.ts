@@ -661,17 +661,19 @@ export class AssetStore {
     const updatedBuckets = new Set<AssetBucket>();
 
     for (const asset of assets) {
-      const timeBucket = DateTime.fromISO(asset.localDateTime).toUTC().startOf('month').toString();
-      let bucket = this.getBucketByDate(timeBucket);
+      if (asset.localDateTime) {
+        const timeBucket = DateTime.fromISO(asset.localDateTime).toUTC().startOf('month').toString();
+        let bucket = this.getBucketByDate(timeBucket);
 
-      if (!bucket) {
-        bucket = new AssetBucket({ store: this, bucketDate: timeBucket, bucketHeight: THUMBNAIL_HEIGHT });
-        this.buckets.push(bucket);
+        if (!bucket) {
+          bucket = new AssetBucket({ store: this, bucketDate: timeBucket, bucketHeight: THUMBNAIL_HEIGHT });
+          this.buckets.push(bucket);
+        }
+
+        bucket.assets.push(asset);
+        this.assets.push(asset);
+        updatedBuckets.add(bucket);
       }
-
-      bucket.assets.push(asset);
-      this.assets.push(asset);
-      updatedBuckets.add(bucket);
     }
 
     this.buckets = this.buckets.sort((a, b) => {
@@ -682,6 +684,9 @@ export class AssetStore {
 
     for (const bucket of updatedBuckets) {
       bucket.assets.sort((a, b) => {
+        if (a.fileCreatedAt === null || b.fileCreatedAt === null) {
+          return 0;
+        }
         const aDate = DateTime.fromISO(a.fileCreatedAt).toUTC();
         const bDate = DateTime.fromISO(b.fileCreatedAt).toUTC();
         return bDate.diff(aDate).milliseconds;
@@ -702,7 +707,7 @@ export class AssetStore {
     let bucket: AssetBucket | null = bucketInfo?.bucket ?? null;
     if (!bucket) {
       const asset = await getAssetInfo({ id });
-      if (!asset || this.isExcluded(asset)) {
+      if (!asset || this.isExcluded(asset) || !asset.localDateTime) {
         return;
       }
 
@@ -758,6 +763,9 @@ export class AssetStore {
     const bucketInfo = this.assetToBucket[id];
     if (bucketInfo) {
       return bucketInfo;
+    }
+    if (!localDateTime) {
+      return null;
     }
     await this.loadBucketAtTime(localDateTime, options);
     return this.assetToBucket[id] || null;

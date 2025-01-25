@@ -33,8 +33,12 @@ export type ScrollTargetListener = ({
   offset: number;
 }) => void;
 
-export const fromLocalDateTime = (localDateTime: string) =>
-  DateTime.fromISO(localDateTime, { zone: 'UTC', locale: get(locale) });
+export const fromLocalDateTime = (localDateTime: string | null) => {
+  if (!localDateTime) {
+    throw new Error('localDateTime is required');
+  }
+  return DateTime.fromISO(localDateTime, { zone: 'UTC', locale: get(locale) });
+};
 
 export const fromDateTimeOriginal = (dateTimeOriginal: string, timeZone: string) =>
   DateTime.fromISO(dateTimeOriginal, { zone: timeZone });

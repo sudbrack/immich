@@ -29,6 +29,8 @@ type TimeZoneTest = {
   description: string;
   serverTimeZone?: string;
   exifData: Record<string, any>;
+  fileCreatedAt: string;
+  fileModifiedAt: string;
   expected: {
     localDateTime: string;
     dateTimeOriginal: string;
@@ -58,6 +60,8 @@ describe(MetadataService.name, () => {
     const timeZoneTests: TimeZoneTest[] = [
       {
         description: 'should handle no time zone information',
+        fileCreatedAt: '2022-01-01T00:00:00.000Z',
+        fileModifiedAt: '2022-01-01T00:00:00.000Z',
         exifData: {
           DateTimeOriginal: '2022:01:01 00:00:00',
         },
@@ -69,6 +73,8 @@ describe(MetadataService.name, () => {
       },
       {
         description: 'should handle no time zone information and server behind UTC',
+        fileCreatedAt: '2022-01-01T00:00:00.000Z',
+        fileModifiedAt: '2022-01-01T00:00:00.000Z',
         serverTimeZone: 'America/Los_Angeles',
         exifData: {
           DateTimeOriginal: '2022:01:01 00:00:00',
@@ -81,6 +87,8 @@ describe(MetadataService.name, () => {
       },
       {
         description: 'should handle no time zone information and server ahead of UTC',
+        fileCreatedAt: '2022-01-01T00:00:00.000Z',
+        fileModifiedAt: '2022-01-01T00:00:00.000Z',
         serverTimeZone: 'Europe/Brussels',
         exifData: {
           DateTimeOriginal: '2022:01:01 00:00:00',
@@ -93,6 +101,8 @@ describe(MetadataService.name, () => {
       },
       {
         description: 'should handle no time zone information and server ahead of UTC in the summer',
+        fileCreatedAt: '2022-01-01T00:00:00.000Z',
+        fileModifiedAt: '2022-01-01T00:00:00.000Z',
         serverTimeZone: 'Europe/Brussels',
         exifData: {
           DateTimeOriginal: '2022:06:01 00:00:00',
@@ -105,6 +115,8 @@ describe(MetadataService.name, () => {
       },
       {
         description: 'should handle a +13:00 time zone',
+        fileCreatedAt: '2022-01-01T00:00:00.000Z',
+        fileModifiedAt: '2022-01-01T00:00:00.000Z',
         exifData: {
           DateTimeOriginal: '2022:01:01 00:00:00+13:00',
         },

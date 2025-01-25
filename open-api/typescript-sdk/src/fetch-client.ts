@@ -243,8 +243,8 @@ export type AssetResponseDto = {
     duplicateId?: string | null;
     duration: string;
     exifInfo?: ExifResponseDto;
-    fileCreatedAt: string;
-    fileModifiedAt: string;
+    fileCreatedAt: string | null;
+    fileModifiedAt: string | null;
     hasMetadata: boolean;
     id: string;
     isArchived: boolean;
@@ -254,7 +254,7 @@ export type AssetResponseDto = {
     /** This property was deprecated in v1.106.0 */
     libraryId?: string | null;
     livePhotoVideoId?: string | null;
-    localDateTime: string;
+    localDateTime: string | null;
     originalFileName: string;
     originalMimeType?: string;
     originalPath: string;

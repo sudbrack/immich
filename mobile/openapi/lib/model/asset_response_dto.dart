@@ -64,9 +64,9 @@ class AssetResponseDto {
   ///
   ExifResponseDto? exifInfo;
 
-  DateTime fileCreatedAt;
+  DateTime? fileCreatedAt;
 
-  DateTime fileModifiedAt;
+  DateTime? fileModifiedAt;
 
   bool hasMetadata;
 
@@ -85,7 +85,7 @@ class AssetResponseDto {
 
   String? livePhotoVideoId;
 
-  DateTime localDateTime;
+  DateTime? localDateTime;
 
   String originalFileName;
 
@@ -174,8 +174,8 @@ class AssetResponseDto {
     (duplicateId == null ? 0 : duplicateId!.hashCode) +
     (duration.hashCode) +
     (exifInfo == null ? 0 : exifInfo!.hashCode) +
-    (fileCreatedAt.hashCode) +
-    (fileModifiedAt.hashCode) +
+    (fileCreatedAt == null ? 0 : fileCreatedAt!.hashCode) +
+    (fileModifiedAt == null ? 0 : fileModifiedAt!.hashCode) +
     (hasMetadata.hashCode) +
     (id.hashCode) +
     (isArchived.hashCode) +
@@ -184,7 +184,7 @@ class AssetResponseDto {
     (isTrashed.hashCode) +
     (libraryId == null ? 0 : libraryId!.hashCode) +
     (livePhotoVideoId == null ? 0 : livePhotoVideoId!.hashCode) +
-    (localDateTime.hashCode) +
+    (localDateTime == null ? 0 : localDateTime!.hashCode) +
     (originalFileName.hashCode) +
     (originalMimeType == null ? 0 : originalMimeType!.hashCode) +
     (originalPath.hashCode) +
@@ -218,8 +218,16 @@ class AssetResponseDto {
     } else {
     //  json[r'exifInfo'] = null;
     }
-      json[r'fileCreatedAt'] = this.fileCreatedAt.toUtc().toIso8601String();
-      json[r'fileModifiedAt'] = this.fileModifiedAt.toUtc().toIso8601String();
+    if (this.fileCreatedAt != null) {
+      json[r'fileCreatedAt'] = this.fileCreatedAt!.toUtc().toIso8601String();
+    } else {
+    //  json[r'fileCreatedAt'] = null;
+    }
+    if (this.fileModifiedAt != null) {
+      json[r'fileModifiedAt'] = this.fileModifiedAt!.toUtc().toIso8601String();
+    } else {
+    //  json[r'fileModifiedAt'] = null;
+    }
       json[r'hasMetadata'] = this.hasMetadata;
       json[r'id'] = this.id;
       json[r'isArchived'] = this.isArchived;
@@ -236,7 +244,11 @@ class AssetResponseDto {
     } else {
     //  json[r'livePhotoVideoId'] = null;
     }
-      json[r'localDateTime'] = this.localDateTime.toUtc().toIso8601String();
+    if (this.localDateTime != null) {
+      json[r'localDateTime'] = this.localDateTime!.toUtc().toIso8601String();
+    } else {
+    //  json[r'localDateTime'] = null;
+    }
       json[r'originalFileName'] = this.originalFileName;
     if (this.originalMimeType != null) {
       json[r'originalMimeType'] = this.originalMimeType;
@@ -288,8 +300,8 @@ class AssetResponseDto {
         duplicateId: mapValueOfType<String>(json, r'duplicateId'),
         duration: mapValueOfType<String>(json, r'duration')!,
         exifInfo: ExifResponseDto.fromJson(json[r'exifInfo']),
-        fileCreatedAt: mapDateTime(json, r'fileCreatedAt', r'')!,
-        fileModifiedAt: mapDateTime(json, r'fileModifiedAt', r'')!,
+        fileCreatedAt: mapDateTime(json, r'fileCreatedAt', r''),
+        fileModifiedAt: mapDateTime(json, r'fileModifiedAt', r''),
         hasMetadata: mapValueOfType<bool>(json, r'hasMetadata')!,
         id: mapValueOfType<String>(json, r'id')!,
         isArchived: mapValueOfType<bool>(json, r'isArchived')!,
@@ -298,7 +310,7 @@ class AssetResponseDto {
         isTrashed: mapValueOfType<bool>(json, r'isTrashed')!,
         libraryId: mapValueOfType<String>(json, r'libraryId'),
         livePhotoVideoId: mapValueOfType<String>(json, r'livePhotoVideoId'),
-        localDateTime: mapDateTime(json, r'localDateTime', r'')!,
+        localDateTime: mapDateTime(json, r'localDateTime', r''),
         originalFileName: mapValueOfType<String>(json, r'originalFileName')!,
         originalMimeType: mapValueOfType<String>(json, r'originalMimeType'),
         originalPath: mapValueOfType<String>(json, r'originalPath')!,
