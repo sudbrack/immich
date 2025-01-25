@@ -100,14 +100,14 @@ export class AssetEntity {
   deletedAt!: Date | null;
 
   @Index('idx_asset_file_created_at')
-  @Column({ type: 'timestamptz' })
-  fileCreatedAt!: Date;
+  @Column({ type: 'timestamptz', nullable: true, default: null })
+  fileCreatedAt!: Date | null;
 
-  @Column({ type: 'timestamptz' })
-  localDateTime!: Date;
+  @Column({ type: 'timestamptz', nullable: true, default: null })
+  localDateTime!: Date | null;
 
-  @Column({ type: 'timestamptz' })
-  fileModifiedAt!: Date;
+  @Column({ type: 'timestamptz', nullable: true, default: null })
+  fileModifiedAt!: Date | null;
 
   @Column({ type: 'boolean', default: false })
   isFavorite!: boolean;

@@ -398,8 +398,6 @@ export class LibraryService extends BaseService {
 
     const assetType = mimeTypes.isVideo(assetPath) ? AssetType.VIDEO : AssetType.IMAGE;
 
-    const mtime = stat.mtime;
-
     asset = await this.assetRepository.create({
       ownerId: job.ownerId,
       libraryId: job.id,
@@ -407,9 +405,9 @@ export class LibraryService extends BaseService {
       originalPath: assetPath,
       deviceAssetId,
       deviceId: 'Library Import',
-      fileCreatedAt: mtime,
-      fileModifiedAt: mtime,
-      localDateTime: mtime,
+      fileCreatedAt: stat.mtime,
+      fileModifiedAt: stat.mtime,
+      localDateTime: stat.mtime,
       type: assetType,
       originalFileName: parse(assetPath).base,
       isExternal: true,
@@ -503,7 +501,7 @@ export class LibraryService extends BaseService {
     }
 
     const mtime = stat.mtime;
-    const isAssetModified = mtime.toISOString() !== asset.fileModifiedAt.toISOString();
+    const isAssetModified = asset.fileModifiedAt === null || mtime.toISOString() !== asset.fileModifiedAt.toISOString();
 
     if (asset.isOffline || isAssetModified) {
       this.logger.debug(`Asset was offline or modified, updating asset record ${asset.originalPath}`);

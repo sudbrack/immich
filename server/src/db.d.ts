@@ -262,7 +262,7 @@ export interface NaturalearthCountries {
   admin: string;
   admin_a3: string;
   coordinates: string;
-  id: Generated<number>;
+  id: number;
   type: string;
 }
 
